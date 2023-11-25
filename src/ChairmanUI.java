@@ -61,7 +61,6 @@ public class ChairmanUI {
         System.out.println("Er medlemmet en konkurrencesvømmer? (ja/nej):");
         boolean isCompetitive = scanner.nextLine().trim().equalsIgnoreCase("ja");
 
-        LocalDate startDate = LocalDate.now();
         int memberID = generateMemberNumber();
 
         Member newMember = new Member(name, birthDate, address, phoneNumber, email, isActive, isCompetitive);

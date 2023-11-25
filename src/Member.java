@@ -10,7 +10,7 @@ public class Member implements Serializable {
     private final int memberId;
     private String name;
     private LocalDate birthDate;
-    private String address;
+    private String address; //gadenavn, evt slettes, evt tilføj zipcode, husnummer, by
     private String phoneNumber;
     private String mail;
     private boolean isActive; //aktiv eller passiv
@@ -97,10 +97,14 @@ public class Member implements Serializable {
         Member.nextId = nextId;
     }
 
+    public void setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
     @Override
     public String toString() {
         return "Member{" +
-                "memberId=" + memberId +
+                "memberID=: " + memberId +
                 ", name='" + name + '\'' +
                 ", birthDate=" + birthDate +
                 ", address='" + address + '\'' +
