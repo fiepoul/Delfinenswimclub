@@ -101,6 +101,8 @@ public class Member implements Serializable {
     @Override
     public String toString() {
         String category = isJunior() ? "Junior" : "Senior";
+        String activeOrPassive = isActive() ? "Aktiv" : "Passiv";
+        String competitiveOrHobby = isCompetitive() ? "Konkurrencesvømmer" : "Motionist";
         return "Member{" +
                 "memberID=: " + memberId +
                 ", name='" + name + '\'' +
@@ -108,8 +110,8 @@ public class Member implements Serializable {
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", mail='" + mail + '\'' +
-                ", isActive=" + isActive + category +
-                ", isCompetitive=" + isCompetitive +
+                ", status=" + activeOrPassive + ", category= " + category +
+                ", type=" + competitiveOrHobby +
                 ", registrationDate=" + registrationDate +
                 '}';
     }

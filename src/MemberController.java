@@ -4,7 +4,7 @@ import java.util.List;
 public class MemberController {
     private MemberDatabase memberDatabase;
     private int nextMemberId;
-    private int currentYear = LocalDate.now().getYear();
+    private int currentYear = LocalDate.now().getYear(); //det årstal hvor der sidst blev registreret
 
     public MemberController(MemberDatabase memberDatabase) {
         this.memberDatabase = memberDatabase;
@@ -18,11 +18,11 @@ public class MemberController {
 
     public int generateMemberNumber() {
         int year = LocalDate.now().getYear();
-        if (year != currentYear) {
-            currentYear = year;
-            nextMemberId = 1; // Nulstil for det nye år
+        if (year != memberDatabase.getCurrentYear()) {
+            memberDatabase.setCurrentYear(year);
+            memberDatabase.setNextMemberId(1);
         }
-        return Integer.parseInt(currentYear + String.format("%04d", nextMemberId++));
+        return Integer.parseInt(year + String.format("%04d", memberDatabase.getNextMemberId()));
     }
 
     public List<Member> getMembers() {
