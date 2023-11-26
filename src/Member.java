@@ -5,9 +5,7 @@ import java.time.Period;
 public class Member implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private static int nextId = 1;
-
-    private final int memberId;
+    private int memberId;
     private String name;
     private LocalDate birthDate;
     private String address; //gadenavn, evt slettes, evt tilføj zipcode, husnummer, by
@@ -27,7 +25,6 @@ public class Member implements Serializable {
         this.isActive = isActive;
         this.isCompetitive = isCompetitive;
         this.registrationDate = LocalDate.now(); // sættes til dato for indmeldelse
-        this.memberId = nextId++;
     }
 
     public String getName() {
@@ -51,6 +48,14 @@ public class Member implements Serializable {
             return 0; // hvis fødselsdato ikke er oprettet sættes alder til 0
         }
         return Period.between(birthDate, LocalDate.now()).getYears();
+    }
+
+    public boolean isJunior() {
+        return getAge() < 18;
+    }
+
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
     }
 
     public String getAddress() {
@@ -89,20 +94,13 @@ public class Member implements Serializable {
         return memberId;
     }
 
-    public static int getNextId() {
-        return nextId;
-    }
-
-    public static void setNextId(int nextId) {
-        Member.nextId = nextId;
-    }
-
     public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
     }
 
     @Override
     public String toString() {
+        String category = isJunior() ? "Junior" : "Senior";
         return "Member{" +
                 "memberID=: " + memberId +
                 ", name='" + name + '\'' +

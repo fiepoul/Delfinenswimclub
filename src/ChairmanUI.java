@@ -1,21 +1,16 @@
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class ChairmanUI {
     private Scanner scanner;
-    private List<Member> members;
-    private int memberCountThisYear = 0; // Holder styr på antallet af medlemmer indmeldt i år
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private Memberdatabase memberDatabase;
+    private MemberController memberController;
 
-    public ChairmanUI() {
+    public ChairmanUI(MemberController memberController) {
         this.scanner = new Scanner(System.in);
-        this.members = new ArrayList<>();
-        this.memberDatabase = new Memberdatabase();
+        this.memberController = memberController;
     }
 
     public void start() {
@@ -29,6 +24,7 @@ public class ChairmanUI {
             System.out.println("3. Slet medlem");
             System.out.println("4: Vis medlemsliste");
             System.out.println("5: Afslut og gem");
+            System.out.println("Vælg en af mulighederne: ");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -61,73 +57,36 @@ public class ChairmanUI {
         System.out.println("Er medlemmet en konkurrencesvømmer? (ja/nej):");
         boolean isCompetitive = scanner.nextLine().trim().equalsIgnoreCase("ja");
 
-        int memberID = generateMemberNumber();
-
         Member newMember = new Member(name, birthDate, address, phoneNumber, email, isActive, isCompetitive);
-        members.add(newMember);
+        memberController.addMember(newMember);
 
-        System.out.println(name + " er blevet tilføjet som medlem med medlemsnummer " + memberID + ".");
-    }
-
-    private int currentYearMemberCount = 0;
-
-    int generateMemberNumber() {
-        int currentYear = LocalDate.now().getYear();
-        currentYearMemberCount++;
-        return Integer.parseInt(currentYear + String.format("%04d", currentYearMemberCount));
-    }
-
-    private int lastYearOfRegistration = LocalDate.now().getYear();
-
-    private void resetMemberCountIfNewYear() {
-        int currentYear = LocalDate.now().getYear();
-        if (lastYearOfRegistration != currentYear) {
-            currentYearMemberCount = 0;
-            lastYearOfRegistration = currentYear;
-        }
+        System.out.println("Nyt medlem tilføjet: " + newMember);
     }
 
     private void updateMember() {
-        System.out.println("Indtast navn på medlem, der skal opdateres:");
-        String name = scanner.nextLine();
+        System.out.println("Indtast ID på medlem, der skal opdateres:");
+        int memberId = scanner.nextInt();
+        scanner.nextLine();
 
-        for (Member member : members) {
-            if (member.getName().equalsIgnoreCase(name)) {
-                System.out.println("Indtast typen af information, der skal opdateres:");
-                System.out.println("Mulige valg: navn, adresse, telefonnummer, e-mail");
-                String infoType = scanner.nextLine().toLowerCase();
-                System.out.println("Indtast ny værdi:");
-                String newValue = scanner.nextLine();
+        System.out.println("Indtast typen af information, der skal opdateres:");
+        System.out.println("Mulige valg: navn, adresse, telefonnummer, e-mail");
+        String infoType = scanner.nextLine().toLowerCase();
 
-                switch (infoType) {
-                    case "navn" -> member.setName(newValue);
-                    case "adresse" -> member.setAddress(newValue);
-                    case "telefonnummer" -> member.setPhoneNumber(newValue);
-                    case "e-mail" -> member.setMail(newValue);
-                    default -> {
-                        System.out.println("Ugyldig informationstype. Prøv igen: ");
-                        return;
-                    }
-                }
-                System.out.println(member.getName() + "'s oplysninger er blevet opdateret.");
-                return;
-            }
-        }
+        System.out.println("Indtast ny værdi:");
+        String newValue = scanner.nextLine();
+
+        memberController.updateMember(memberId, infoType, newValue);
     }
 
     private void deleteMember() {
-        System.out.println("Indtast navn på medlem, der skal slettes:");
-        String name = scanner.nextLine();
-
-        boolean removed = members.removeIf(member -> member.getName().equalsIgnoreCase(name));
-        if (removed) {
-            System.out.println("Medlem slettet.");
-        } else {
-            System.out.println("Ingen medlem fundet med det navn.");
-        }
+        System.out.println("Indtast medlemsnummer:");
+        int memberId = scanner.nextInt();
+        memberController.deleteMember(memberId);
+        System.out.println("Medlem slettet.");
     }
 
     private void showMembers() {
+        List<Member> members = memberController.getMembers();
         if (members.isEmpty()) {
             System.out.println("Ingen medlemmer at vise.");
         } else {
@@ -139,13 +98,13 @@ public class ChairmanUI {
 
     private void exitManagement() {
         try {
-            memberDatabase.saveMembers(members);
-            memberDatabase.saveNextId(Member.getNextId());
-            System.out.println("Gemmer data og afslutter...");
-        } catch (IOException e) {
+            memberController.saveAllMembers();
+            System.out.println("Data gemt. Afslutter programmet.");
+            System.exit(0); // Sikrer en korrekt afslutning af programmet
+        } catch (Exception e) {
+            System.err.println("Fejl ved gemning af data: " + e.getMessage());
             e.printStackTrace();
         }
-        System.exit(0);
     }
 
 
