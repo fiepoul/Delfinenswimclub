@@ -16,7 +16,7 @@ public class MemberController {
         memberDatabase.saveMember(member);
     }
 
-    private int generateMemberNumber() {
+    public int generateMemberNumber() {
         int year = LocalDate.now().getYear();
         if (year != currentYear) {
             currentYear = year;
