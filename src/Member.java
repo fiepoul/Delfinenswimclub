@@ -108,7 +108,7 @@ public class Member implements Serializable {
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", mail='" + mail + '\'' +
-                ", isActive=" + isActive +
+                ", isActive=" + isActive + category +
                 ", isCompetitive=" + isCompetitive +
                 ", registrationDate=" + registrationDate +
                 '}';

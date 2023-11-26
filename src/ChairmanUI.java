@@ -1,5 +1,7 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -43,9 +45,16 @@ public class ChairmanUI {
     private void addNewMember() {
         System.out.println("Indtast navn: ");
         String name = scanner.nextLine();
-        System.out.println("Indtast fødselsdato (dd.MM.yyyy):");
-        String birthDateString = scanner.nextLine();
-        LocalDate birthDate = LocalDate.parse(birthDateString, DATE_FORMATTER);
+        LocalDate birthDate = null;
+        while (birthDate == null) {
+            System.out.println("Indtast fødselsdato (dd.MM.yyyy):");
+            String birthDateString = scanner.nextLine();
+            try {
+                birthDate = LocalDate.parse(birthDateString, DATE_FORMATTER);
+            } catch (DateTimeParseException e) {
+                System.out.println("Ugyldigt datoformat. Prøv igen.");
+            }
+        }
         System.out.println("Indtast adresse:");
         String address = scanner.nextLine();
         System.out.println("Indtast telefonnummer: ");
@@ -65,7 +74,7 @@ public class ChairmanUI {
 
     private void updateMember() {
         System.out.println("Indtast ID på medlem, der skal opdateres:");
-        int memberId = scanner.nextInt();
+        int memberId = promptForInt("indtast medlemsnummer: ");
         scanner.nextLine();
 
         System.out.println("Indtast typen af information, der skal opdateres:");
@@ -76,11 +85,23 @@ public class ChairmanUI {
         String newValue = scanner.nextLine();
 
         memberController.updateMember(memberId, infoType, newValue);
+        System.out.println("Medlemsoplysningerne er blevet opdateret.");
+    }
+
+    private int promptForInt(String message) {
+        while (true) {
+            System.out.println(message);
+            try {
+                return scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Ugyldigt input, prøv venligst igen: ");
+                scanner.nextLine();
+            }
+        }
     }
 
     private void deleteMember() {
-        System.out.println("Indtast medlemsnummer:");
-        int memberId = scanner.nextInt();
+        int memberId = promptForInt("Indtast medlemsnummer: ");
         memberController.deleteMember(memberId);
         System.out.println("Medlem slettet.");
     }
