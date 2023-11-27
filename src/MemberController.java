@@ -55,7 +55,15 @@ public class MemberController {
     private void applyUpdate(Member member, String infoType, String newValue) {
         switch (infoType) {
             case "navn" -> member.setName(newValue);
-            case "adresse" -> member.setAddress(newValue);
+            case "adresse" -> {
+                String[] addressParts = newValue.split(";");
+                if (addressParts.length == 4) {
+                    Address newAddress = new Address(addressParts[0], addressParts[1], addressParts[2], addressParts[3]);
+                    member.setAddress(newAddress);
+                } else {
+                    System.out.println("Ugyldig adresseformat.");
+                }
+            }
             case "telefonnummer" -> member.setPhoneNumber(newValue);
             case "e-mail" -> member.setMail(newValue);
             default -> System.out.println("Ugyldig informationstype: " + infoType);

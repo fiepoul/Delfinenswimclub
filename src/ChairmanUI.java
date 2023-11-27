@@ -54,8 +54,17 @@ public class ChairmanUI {
                 System.out.println("Ugyldigt datoformat. Prøv igen.");
             }
         }
-        System.out.println("Indtast adresse:");
-        String address = scanner.nextLine();
+
+        System.out.println("Indtast vejnavn:");
+        String streetName = scanner.nextLine();
+        System.out.println("Indtast husnummer:");
+        String houseNumber = scanner.nextLine();
+        System.out.println("Indtast postnummer:");
+        String zipCode = scanner.nextLine();
+        System.out.println("Indtast by:");
+        String city = scanner.nextLine();
+        Address address = new Address(streetName, houseNumber, zipCode, city);
+
         System.out.println("Indtast telefonnummer: "); //todo: mere fejlkode ?promp?
         String phoneNumber = scanner.nextLine();
         System.out.println("Indtast email:");
@@ -77,11 +86,25 @@ public class ChairmanUI {
         scanner.nextLine();
 
         System.out.println("Indtast typen af information, der skal opdateres:");
-        System.out.println("Mulige valg: navn, adresse, telefonnummer, e-mail");
+        System.out.println("Mulige valg: navn, adresse, telefonnummer, mail");
         String infoType = scanner.nextLine().toLowerCase();
 
-        System.out.println("Indtast ny værdi:");
-        String newValue = scanner.nextLine();
+        String newValue;
+        if (infoType.equals("adresse")) {
+            System.out.println("Indtast vejnavn:");
+            String streetName = scanner.nextLine();
+            System.out.println("Indtast husnummer:");
+            String houseNumber = scanner.nextLine();
+            System.out.println("Indtast postnummer:");
+            String zipCode = scanner.nextLine();
+            System.out.println("Indtast by:");
+            String city = scanner.nextLine();
+
+            newValue = streetName + ";" + houseNumber + ";" + zipCode + ";" + city;
+        } else {
+            System.out.println("Indtast ny værdi:");
+            newValue = scanner.nextLine();
+        }
 
         memberController.updateMember(memberId, infoType, newValue);
         System.out.println("Medlemsoplysningerne er blevet opdateret.");

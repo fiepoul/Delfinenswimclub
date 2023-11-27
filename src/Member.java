@@ -3,12 +3,12 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class Member implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 10L;
 
     private int memberId;
     private String name;
     private LocalDate birthDate;
-    private String address; //gadenavn, evt slettes, evt tilføj zipcode, husnummer, by //todo: adresse klasse
+    private Address address;
     private String phoneNumber;
     private String mail;
     private boolean isActive; //aktiv eller passiv
@@ -16,7 +16,7 @@ public class Member implements Serializable {
     private LocalDate registrationDate;
 
 
-    public Member(String name, LocalDate birthDate, String address, String phoneNumber, String mail, boolean isActive, boolean isCompetitive) {
+    public Member(String name, LocalDate birthDate, Address address, String phoneNumber, String mail, boolean isActive, boolean isCompetitive) {
         this.name = name;
         this.birthDate = birthDate;
         this.address = address;
@@ -59,10 +59,10 @@ public class Member implements Serializable {
     }
 
     public String getAddress() {
-        return address;
+        return address.toString();
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
@@ -110,7 +110,7 @@ public class Member implements Serializable {
                 ", addresse: '" + address + '\'' +
                 ", telefonnummer: '" + phoneNumber + '\'' +
                 ", e-mail: '" + mail + '\'' +
-                ", status: " + activeOrPassive + ", category= " + category +
+                ", status: " + activeOrPassive + ", kategori: " + category +
                 ", type: " + competitiveOrHobby +
                 ", registreringsdato: " + registrationDate +
                 '}';
