@@ -30,13 +30,13 @@ public class ChairmanUI {
             int choice = promptForInt("Vælg en af mulighederne: ");
             scanner.nextLine();
 
-            switch (choice) {
+            switch (choice) { // todo: i stedet for at menuen kommer op igen, så lav et mere simpelt alternativ.
                 case 1 -> addNewMember();
                 case 2 -> updateMember();
                 case 3 -> deleteMember();
                 case 4 -> showMembers();
                 case 5 -> exitManagement();
-                default -> System.out.println("Ugyldigt valg. Prøv igen.");
+                default -> System.out.println("Ugyldigt valg. Prøv igen: ");
             }
         }
     }
@@ -56,7 +56,7 @@ public class ChairmanUI {
         }
         System.out.println("Indtast adresse:");
         String address = scanner.nextLine();
-        System.out.println("Indtast telefonnummer: ");
+        System.out.println("Indtast telefonnummer: "); //todo: mere fejlkode ?promp?
         String phoneNumber = scanner.nextLine();
         System.out.println("Indtast email:");
         String email = scanner.nextLine();

@@ -13,13 +13,13 @@ class MemberTest {
         Member member = new Member("nina poulsen", birthDate,"marstrandsgade 10, 8000 aarhus","30339098", "gittejørgensen@hotmail.com", true, false);
         member.setRegistrationDate(registrationDate);
 
-        String expected = "Member{" +
-                "memberID=: " + member.getMemberId() +
-                ", name='" + "nina poulsen" + '\'' +
-                ", birthDate=" + birthDate +
-                ", address='" + "marstrandsgade 10, 8000 aarhus" + '\'' +
-                ", phoneNumber='" + "30339098" + '\'' +
-                ", mail='" + "gittejørgensen@hotmail.com" + '\'' +
+        String expected = "Medlem{" +
+                "medlemsnummer: " + member.getMemberId() +
+                ", navn:'" + "nina poulsen" + '\'' +
+                ", fødselsdag: " + birthDate +
+                ", addresse: '" + "marstrandsgade 10, 8000 aarhus" + '\'' +
+                ", telefonnummer: '" + "30339098" + '\'' +
+                ", e-mail='" + "gittejørgensen@hotmail.com" + '\'' +
                 ", isActive=" + true +
                 ", isCompetitive=" + false +
                 ", registrationDate=" + registrationDate +

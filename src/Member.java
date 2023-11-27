@@ -8,7 +8,7 @@ public class Member implements Serializable {
     private int memberId;
     private String name;
     private LocalDate birthDate;
-    private String address; //gadenavn, evt slettes, evt tilføj zipcode, husnummer, by
+    private String address; //gadenavn, evt slettes, evt tilføj zipcode, husnummer, by //todo: adresse klasse
     private String phoneNumber;
     private String mail;
     private boolean isActive; //aktiv eller passiv
@@ -47,11 +47,11 @@ public class Member implements Serializable {
         if (birthDate == null) {
             return 0; // hvis fødselsdato ikke er oprettet sættes alder til 0
         }
-        return Period.between(birthDate, LocalDate.now()).getYears();
+        return Period.between(birthDate, LocalDate.now()).getYears(); // skal testes eller undersøges om der skal getmonth til
     }
 
     public boolean isJunior() {
-        return getAge() < 18;
+        return getAge() < 18; // tjek hvad der sker når medlem er præcist 18
     }
 
     public void setMemberId(int memberId) {
@@ -103,16 +103,16 @@ public class Member implements Serializable {
         String category = isJunior() ? "Junior" : "Senior";
         String activeOrPassive = isActive() ? "Aktiv" : "Passiv";
         String competitiveOrHobby = isCompetitive() ? "Konkurrencesvømmer" : "Motionist";
-        return "Member{" +
-                "memberID=: " + memberId +
-                ", name='" + name + '\'' +
-                ", birthDate=" + birthDate +
-                ", address='" + address + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", mail='" + mail + '\'' +
-                ", status=" + activeOrPassive + ", category= " + category +
-                ", type=" + competitiveOrHobby +
-                ", registrationDate=" + registrationDate +
+        return "Medlem{" +
+                "medlemsnummer: " + memberId +
+                ", navn: '" + name + '\'' +
+                ", fødselsdag: " + birthDate +
+                ", addresse: '" + address + '\'' +
+                ", telefonnummer: '" + phoneNumber + '\'' +
+                ", e-mail: '" + mail + '\'' +
+                ", status: " + activeOrPassive + ", category= " + category +
+                ", type: " + competitiveOrHobby +
+                ", registreringsdato: " + registrationDate +
                 '}';
     }
 
