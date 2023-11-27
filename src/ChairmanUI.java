@@ -26,9 +26,8 @@ public class ChairmanUI {
             System.out.println("3. Slet medlem");
             System.out.println("4: Vis medlemsliste");
             System.out.println("5: Afslut og gem");
-            System.out.println("Vælg en af mulighederne: ");
 
-            int choice = scanner.nextInt();
+            int choice = promptForInt("Vælg en af mulighederne: ");
             scanner.nextLine();
 
             switch (choice) {

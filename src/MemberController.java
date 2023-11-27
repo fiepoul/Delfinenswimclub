@@ -3,12 +3,9 @@ import java.util.List;
 
 public class MemberController {
     private MemberDatabase memberDatabase;
-    private int nextMemberId;
-    private int currentYear = LocalDate.now().getYear(); //det årstal hvor der sidst blev registreret
 
     public MemberController(MemberDatabase memberDatabase) {
         this.memberDatabase = memberDatabase;
-        this.nextMemberId = 1; // Start fra 1 for hvert år
     }
 
     public void addMember(Member member) {
