@@ -9,7 +9,8 @@ public class MemberController {
     }
 
     public void addMember(Member member) {
-        member.setMemberId(generateMemberNumber());
+        int memberId = memberDatabase.hasAvailableMemberId() ? memberDatabase.getAvailableMemberId() : generateMemberNumber();
+        member.setMemberId(memberId);
         memberDatabase.saveMember(member);
     }
 
@@ -28,6 +29,7 @@ public class MemberController {
 
     public void deleteMember(int memberId) {
         memberDatabase.deleteMember(memberId);
+        memberDatabase.addAvailableMemberId(memberId);
     }
 
     public void saveAllMembers() {

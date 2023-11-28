@@ -1,12 +1,17 @@
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class MemberDatabase {
     private static final String MEMBERS_FILE = "members.ser";
     private static final String NEXT_ID_FILE = "nextId.ser";
     private static final String CURRENT_YEAR_FILE = "currentYear.ser";
+
+    private static final String AVAILABLE_IDS_FILE = "availableIds.ser";
+    private Queue<Integer> availableMemberIds;
     private List<Member> members;
     private int currentYear;
     private int nextMemberId;
@@ -15,6 +20,7 @@ public class MemberDatabase {
         this.members = loadMembers();
         this.nextMemberId = loadNextId();
         this.currentYear = loadCurrentYear();
+        this.availableMemberIds = loadAvailableMemberIds();
     }
 
     public void saveMember(Member member) {
@@ -62,6 +68,41 @@ public class MemberDatabase {
         }
     }
 
+    public void saveAvailableMemberIds() {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(AVAILABLE_IDS_FILE))) {
+            out.writeObject(new LinkedList<>(availableMemberIds));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Queue<Integer> loadAvailableMemberIds() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(AVAILABLE_IDS_FILE))) {
+            return (Queue<Integer>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            return new LinkedList<>();
+        }
+    }
+
+    public void addAvailableMemberId(int memberId) {
+        if (availableMemberIds == null) {
+            availableMemberIds = new LinkedList<>();
+        }
+        availableMemberIds.offer(memberId);
+        saveAvailableMemberIds();
+    }
+
+    public boolean hasAvailableMemberId() {
+        return !availableMemberIds.isEmpty();
+    }
+
+    public int getAvailableMemberId() {
+        int availableId = availableMemberIds.poll();
+        saveAvailableMemberIds();
+        return availableId;
+    }
+
+
     public int getCurrentYear() {
         return currentYear;
     }
@@ -72,9 +113,10 @@ public class MemberDatabase {
     }
 
     public int getNextMemberId() {
+        int currentId = nextMemberId;
         nextMemberId++;
         saveNextId();
-        return nextMemberId;
+        return currentId;
     }
 
     public void setNextMemberId(int nextMemberId) {
@@ -85,8 +127,13 @@ public class MemberDatabase {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(NEXT_ID_FILE))) {
             return in.readInt();
         } catch (IOException e) {
-            return 1; // Start fra 1, hvis filen ikke findes
+            return 1; // Starter fra 1, hvis filen ikke findes
         }
+    }
+
+    public void resetNextMemberId() {
+        this.nextMemberId = 1; // Sæt til 1 eller den ønskede startværdi
+        saveNextId();
     }
 
     public void deleteMember(int memberId) {

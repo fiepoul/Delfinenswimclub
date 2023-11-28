@@ -3,7 +3,7 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class Member implements Serializable {
-    private static final long serialVersionUID = 10L;
+    private static final long serialVersionUID = 100L;
 
     private int memberId;
     private String name;
