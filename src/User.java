@@ -33,9 +33,10 @@ public class User {
         this.role = role;
     }
 
+    @Override
     public String toString() {
         return "Bruger{" + "brugernavn: '" + getUsername() + '\'' +
-                "kodeord: " + getPassword() +
-                "rolle: " + getRole() + "}";
+                ", kodeord: " + getPassword() +
+                ", rolle: " + getRole() + "}";
     }
 }

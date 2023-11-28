@@ -1,5 +1,5 @@
 public enum Role {
-        CHAIRMAN,
-        TREASURER
+        FORMAND,
+        KASSERER
 
 }
