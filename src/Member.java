@@ -47,11 +47,11 @@ public class Member implements Serializable {
         if (birthDate == null) {
             return 0; // hvis fødselsdato ikke er oprettet sættes alder til 0
         }
-        return Period.between(birthDate, LocalDate.now()).getYears(); // skal testes eller undersøges om der skal getmonth til
+        return Period.between(birthDate, LocalDate.now()).getYears();
     }
 
     public boolean isJunior() {
-        return getAge() < 18; // tjek hvad der sker når medlem er præcist 18
+        return getAge() < 18;
     }
 
     public void setMemberId(int memberId) {
@@ -107,10 +107,12 @@ public class Member implements Serializable {
                 "medlemsnummer: " + memberId +
                 ", navn: '" + name + '\'' +
                 ", fødselsdag: " + birthDate +
+                ", alder: " + getAge() +
                 ", addresse: '" + address + '\'' +
                 ", telefonnummer: '" + phoneNumber + '\'' +
                 ", e-mail: '" + mail + '\'' +
-                ", status: " + activeOrPassive + ", kategori: " + category +
+                ", status: " + activeOrPassive +
+                ", kategori: " + category +
                 ", type: " + competitiveOrHobby +
                 ", registreringsdato: " + registrationDate +
                 '}';
