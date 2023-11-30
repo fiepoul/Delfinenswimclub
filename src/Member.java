@@ -14,6 +14,7 @@ public class Member implements Serializable {
     private boolean isActive; //aktiv eller passiv
     private boolean isCompetitive; //motion eller konkurrence
     private LocalDate registrationDate;
+    private boolean paymentComplete;
 
 
     public Member(String name, LocalDate birthDate, Address address, String phoneNumber, String mail, boolean isActive, boolean isCompetitive) {
@@ -96,6 +97,14 @@ public class Member implements Serializable {
 
     public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public boolean isPaymentComplete() {
+        return paymentComplete;
+    }
+
+    public void setPaymentComplete(boolean paymentComplete) {
+        this.paymentComplete = paymentComplete;
     }
 
     @Override

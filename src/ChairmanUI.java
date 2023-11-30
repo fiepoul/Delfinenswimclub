@@ -16,29 +16,29 @@ public class ChairmanUI {
     }
 
     public void start() {
-        System.out.println("SVØMMEKLUBBEN DELFINENS MANAGEMENT SYSTEM");
-        boolean running = true;
+            System.out.println("VELKOMMEN TIL FORMANDENS MANAGEMENT SYSTEM");
+            boolean running = true;
 
-        while (running) {
-            System.out.println("Menu:");
-            System.out.println("1: Tilføj nyt medlem");
-            System.out.println("2: Opdater medlemsoplysninger");
-            System.out.println("3. Slet medlem");
-            System.out.println("4: Vis medlemsliste");
-            System.out.println("5: Afslut og gem");
+            while (running) {
+                System.out.println("Menu:");
+                System.out.println("1: Tilføj nyt medlem");
+                System.out.println("2: Opdater medlemsoplysninger");
+                System.out.println("3. Slet medlem");
+                System.out.println("4: Vis medlemsliste");
+                System.out.println("5: Afslut og gem");
 
-            int choice = promptForInt("Vælg en af mulighederne: ");
-            scanner.nextLine();
+                int choice = promptForInt("Vælg en af mulighederne (1-5): ");
+                scanner.nextLine();
 
-            switch (choice) { // todo: i stedet for at menuen kommer op igen, så lav et mere simpelt alternativ.
-                case 1 -> addNewMember();
-                case 2 -> updateMember();
-                case 3 -> deleteMember();
-                case 4 -> showMembers();
-                case 5 -> exitManagement();
-                default -> System.out.println("Ugyldigt valg. Prøv igen: ");
+                switch (choice) { // todo: i stedet for at menuen kommer op igen, så lav et mere simpelt alternativ.
+                    case 1 -> addNewMember();
+                    case 2 -> updateMember();
+                    case 3 -> deleteMember();
+                    case 4 -> showMembers();
+                    case 5 -> exitManagement();
+                    default -> System.out.println("Ugyldigt valg. Prøv igen: ");
+                }
             }
-        }
     }
 
     private void addNewMember() {

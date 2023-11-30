@@ -72,4 +72,12 @@ public class MemberController {
         }
     }
 
+    public void updatePaymentStatus(int memberId, boolean status) {
+        Member member = findMemberById(memberId);
+        if (member != null) {
+            member.setPaymentComplete(status);
+            //todo: database gem
+        }
+    }
+
 }
