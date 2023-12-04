@@ -7,11 +7,11 @@ public class FinancialDatabase {
 
     public void saveFinancialDetails(List<Member> members) {
         try (BufferedWriter writer = new BufferedWriter (new OutputStreamWriter(new FileOutputStream(FINANCIAL_DETAILS_FILE), StandardCharsets.UTF_8))) {
-            writer.write("Medlemsnummer,Navn,Kontingent,Betalingsstatus");
+            writer.write("Medlemsnummer,Navn,E-mail,Kontingent,Betalingsstatus");
             writer.newLine();
             for (Member member : members) {
                 String paymentStatus = member.isPaymentComplete() ? "Betalt" : "Ubetalt";
-                String memberData = member.getMemberId() + "," + member.getName() + "," + member.calculateMembershipFee() + "," + paymentStatus;
+                String memberData = member.getMemberId() + "," + member.getName() + "," + member.getMail() + "," + member.calculateMembershipFee() + "," + paymentStatus;
                 writer.write(memberData);
                 writer.newLine();
             }

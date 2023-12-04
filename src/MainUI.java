@@ -1,10 +1,10 @@
 import java.util.Scanner;
 
 public class MainUI {
-    private Scanner scanner;
-    private LogInService logInService;
-    private MemberController memberController;
-    private FinancielController financielController;
+    private final Scanner scanner;
+    private final LogInService logInService;
+    private final MemberController memberController;
+    private final FinancielController financielController;
 
     public MainUI(MemberController memberController, FinancielController financielController) {
         this.scanner = new Scanner(System.in);

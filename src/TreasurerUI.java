@@ -35,14 +35,21 @@ public class TreasurerUI {
             }
     }
 
-        private void showPaymentStatus() {
+    private void showPaymentStatus() {
+        while (true) {
             financielController.displayMembersInArrears();
+
+            if (promptForReturnToMenu()) {
+                break;
+            }
         }
+    }
 
     private void updatePaymentStatus() {
         while (true) {
-            System.out.println("Indtast ID på medlemmet, hvis betalingsstatus skal opdateres:");
-            int memberId = promptForInt("Indtast medlemsnummer: ");
+            financielController.displayMembersList();
+
+            int memberId = promptForInt("Indtast medlemsnummer på medlemmet, hvis betalingsstatus skal opdateres: ");
             scanner.nextLine(); // Ryd bufferen
 
             System.out.println("Er betalingen gennemført? (ja/nej):");
@@ -62,14 +69,20 @@ public class TreasurerUI {
         }
     }
 
-        private boolean promptForReturnToMenu() {
-            System.out.println("Ønsker du at vende tilbage til hovedmenuen? (ja/nej):");
-            return scanner.nextLine().trim().equalsIgnoreCase("ja");
-        }
+    private boolean promptForReturnToMenu() {
+        System.out.println("Ønsker du at vende tilbage til hovedmenuen? (ja/nej):");
+        return scanner.nextLine().trim().equalsIgnoreCase("ja");
+    }
 
     private void showTotalMembershipFees() {
-        int totalFees = financielController.calculateTotalMembershipFees();
-        System.out.println("Samlet kontingentindbetaling: " + totalFees);
+        while (true) {
+            int totalFees = financielController.calculateTotalMembershipFees();
+            System.out.println("Samlet kontingentindbetaling: " + totalFees);
+
+            if (promptForReturnToMenu()) {
+                break;
+            }
+        }
     }
 
     private void saveAndExit(){

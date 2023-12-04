@@ -23,7 +23,7 @@ public class FinancielController {
         System.out.println("Medlemmer i restance:");
         for (Member member : members) {
             if (!member.isPaymentComplete()) {
-                System.out.println("Medlem: " + member.getName() + " (ID: " + member.getMemberId() + ") - Restbetaling: " + member.calculateMembershipFee());
+                System.out.println("Medlem: " + member.getName() + " (medlemsnummer: " + member.getMemberId() + ") E-mail:" + member.getMail() + " - Restbetaling: " + member.calculateMembershipFee());
             }
         }
     }
@@ -36,6 +36,19 @@ public class FinancielController {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public void displayMembersList() {
+        System.out.println("Medlemsliste med betalingsstatus:");
+        List<Member> members = memberController.getMembers();
+        if (members.isEmpty()) {
+            System.out.println("Ingen medlemmer at vise.");
+        } else {
+            for (Member member : members) {
+                String paymentStatus = member.isPaymentComplete() ? "Betalt" : "Ubetalt";
+                System.out.println("Medlemsnummer: " + member.getMemberId() + ", Navn: " + member.getName() + ", Betalingsstatus: " + paymentStatus);
+            }
         }
     }
 
