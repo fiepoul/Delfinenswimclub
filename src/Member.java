@@ -152,10 +152,11 @@ public class Member implements Serializable {
         Address address = new Address(parts[3], parts[4], parts[5], parts[6]);
         String phoneNumber = parts[7];
         String mail = parts[8];
-        boolean isActive = Boolean.parseBoolean(parts[9]);
-        boolean isCompetitive = Boolean.parseBoolean(parts[10]);
-        LocalDate registrationDate = LocalDate.parse(parts[11]);
-        boolean paymentComplete = Boolean.parseBoolean(parts[12]);
+        boolean isJunior = Boolean.parseBoolean(parts[9]);
+        boolean isActive = Boolean.parseBoolean(parts[10]);
+        boolean isCompetitive = Boolean.parseBoolean(parts[11]);
+        LocalDate registrationDate = LocalDate.parse(parts[12]);
+        boolean paymentComplete = Boolean.parseBoolean(parts[13]);
 
         Member member = new Member(name, birthDate, address, phoneNumber, mail, isActive, isCompetitive);
         member.setMemberId(memberId);
