@@ -133,15 +133,17 @@ public class Member implements Serializable {
     }
 
     public String toCsvString() {
+        String category = isJunior() ? "Junior" : "Senior";
+        String activeOrPassive = isActive() ? "Aktiv" : "Passiv";
+        String competitiveOrHobby = isCompetitive() ? "Konkurrencesvømmer" : "Motionist";
         return memberId + "," + name + "," + birthDate + "," +
                 address.getStreetName() + "," + address.getHouseNumber() + "," +
                 address.getZipCode() + "," + address.getCity() + "," +
-                phoneNumber + "," + mail + "," + isActive + "," +
-                isCompetitive + "," + registrationDate + "," + paymentComplete;
-    }
+                phoneNumber + "," + mail + "," + category + "," + activeOrPassive + "," +
+                competitiveOrHobby + "," + registrationDate + "," + paymentComplete;
+    } //todo: skriv lidt flottere boolean
 
     public static Member fromCsvString(String csvString) {
-        // Her konverterer vi en CSV-streng til et Memberobjekt.
         String[] parts = csvString.split(",");
 
         int memberId = Integer.parseInt(parts[0]);
