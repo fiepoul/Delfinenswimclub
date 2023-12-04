@@ -107,6 +107,11 @@ public class Member implements Serializable {
         this.paymentComplete = paymentComplete;
     }
 
+    public int calculateMembershipFee() {
+        MemberFee feeCalculator = new MemberFee(name, birthDate, address, phoneNumber, mail, isActive, isCompetitive);
+        return feeCalculator.calculateMembershipFee();
+    }
+
     @Override
     public String toString() {
         String category = isJunior() ? "Junior" : "Senior";
@@ -125,6 +130,37 @@ public class Member implements Serializable {
                 ", type: " + competitiveOrHobby +
                 ", registreringsdato: " + registrationDate +
                 '}';
+    }
+
+    public String toCsvString() {
+        return memberId + "," + name + "," + birthDate + "," +
+                address.getStreetName() + "," + address.getHouseNumber() + "," +
+                address.getZipCode() + "," + address.getCity() + "," +
+                phoneNumber + "," + mail + "," + isActive + "," +
+                isCompetitive + "," + registrationDate + "," + paymentComplete;
+    }
+
+    public static Member fromCsvString(String csvString) {
+        // Her konverterer vi en CSV-streng til et Memberobjekt.
+        String[] parts = csvString.split(",");
+
+        int memberId = Integer.parseInt(parts[0]);
+        String name = parts[1];
+        LocalDate birthDate = LocalDate.parse(parts[2]);
+        Address address = new Address(parts[3], parts[4], parts[5], parts[6]);
+        String phoneNumber = parts[7];
+        String mail = parts[8];
+        boolean isActive = Boolean.parseBoolean(parts[9]);
+        boolean isCompetitive = Boolean.parseBoolean(parts[10]);
+        LocalDate registrationDate = LocalDate.parse(parts[11]);
+        boolean paymentComplete = Boolean.parseBoolean(parts[12]);
+
+        Member member = new Member(name, birthDate, address, phoneNumber, mail, isActive, isCompetitive);
+        member.setMemberId(memberId);
+        member.setRegistrationDate(registrationDate);
+        member.setPaymentComplete(paymentComplete);
+
+        return member;
     }
 
 }

@@ -33,8 +33,12 @@ public class MemberController {
     }
 
     public void saveAllMembers() {
-        memberDatabase.saveMembers();
-        memberDatabase.saveNextId();
+        try {
+            memberDatabase.saveMembers();
+            memberDatabase.saveNextId();
+        } catch (Exception e) {
+            System.err.println("Fejl under gemning af medlemmer: " + e.getMessage());
+        }
     }
 
     public void updateMember(int memberId, String infoType, String newValue) {
@@ -47,7 +51,7 @@ public class MemberController {
         }
     }
 
-    private Member findMemberById(int memberId) {
+    public Member findMemberById(int memberId) {
         return memberDatabase.getMembers().stream()
                 .filter(m -> m.getMemberId() == memberId)
                 .findFirst()
@@ -69,14 +73,6 @@ public class MemberController {
             case "telefonnummer" -> member.setPhoneNumber(newValue);
             case "e-mail" -> member.setMail(newValue);
             default -> System.out.println("Ugyldig informationstype: " + infoType);
-        }
-    }
-
-    public void updatePaymentStatus(int memberId, boolean status) {
-        Member member = findMemberById(memberId);
-        if (member != null) {
-            member.setPaymentComplete(status);
-            //todo: database gem
         }
     }
 

@@ -78,36 +78,54 @@ public class ChairmanUI {
         memberController.addMember(newMember);
 
         System.out.println("Nyt medlem tilføjet: " + newMember);
+
+        if (!promptForReturnToMenu()) {
+            addNewMember();
+        }
     }
 
     private void updateMember() {
-        System.out.println("Indtast ID på medlem, der skal opdateres:");
-        int memberId = promptForInt("indtast medlemsnummer: ");
-        scanner.nextLine();
+            System.out.println("Nuværende medlemsliste:");
+            for (Member member : memberController.getMembers()) {
+                System.out.println("ID: " + member.getMemberId() + ", Navn: " + member.getName());
+            }
 
-        System.out.println("Indtast typen af information, der skal opdateres:");
-        System.out.println("Mulige valg: navn, adresse, telefonnummer, mail");
-        String infoType = scanner.nextLine().toLowerCase();
+            int memberId = promptForInt("indtast medlemsnummer: ");
+            scanner.nextLine();
 
-        String newValue;
-        if (infoType.equals("adresse")) {
-            System.out.println("Indtast vejnavn:");
-            String streetName = scanner.nextLine();
-            System.out.println("Indtast husnummer:");
-            String houseNumber = scanner.nextLine();
-            System.out.println("Indtast postnummer:");
-            String zipCode = scanner.nextLine();
-            System.out.println("Indtast by:");
-            String city = scanner.nextLine();
+            String newValue = null;
+            boolean correctInfoType = false;
+            while (!correctInfoType) {
+            System.out.println("Indtast typen af information, der skal opdateres:");
+            System.out.println("Mulige valg: navn, adresse, telefonnummer, e-mail");
+            String infoType = scanner.nextLine().toLowerCase();
 
-            newValue = streetName + ";" + houseNumber + ";" + zipCode + ";" + city;
-        } else {
-            System.out.println("Indtast ny værdi:");
-            newValue = scanner.nextLine();
+            if (infoType.equals("adresse")) {
+                System.out.println("Indtast vejnavn:");
+                String streetName = scanner.nextLine();
+                System.out.println("Indtast husnummer:");
+                String houseNumber = scanner.nextLine();
+                System.out.println("Indtast postnummer:");
+                String zipCode = scanner.nextLine();
+                System.out.println("Indtast by:");
+                String city = scanner.nextLine();
+
+                newValue = streetName + ";" + houseNumber + ";" + zipCode + ";" + city;
+                correctInfoType = true;
+            } else if (infoType.equals("navn") || infoType.equals("telefonnummer") || infoType.equals("e-mail")) {
+                System.out.println("Indtast ny værdi:");
+                newValue = scanner.nextLine();
+                correctInfoType = true;
+            } else {
+                System.out.println("Ugyldig infotype: " + infoType);
+            }
+
+            memberController.updateMember(memberId, infoType, newValue);
+            System.out.println("Medlemsoplysningerne er blevet opdateret for medlemsnummer: " + memberId);
+            if (!promptForReturnToMenu()) {
+                updateMember();
+            }
         }
-
-        memberController.updateMember(memberId, infoType, newValue);
-        System.out.println("Medlemsoplysningerne er blevet opdateret.");
     }
 
     private int promptForInt(String message) {
@@ -122,10 +140,19 @@ public class ChairmanUI {
         }
     }
 
+    private boolean promptForReturnToMenu() {
+        System.out.println("Ønsker du at vende tilbage til hovedmenuen? (ja/nej):");
+        String response = scanner.nextLine().trim();
+        return response.equalsIgnoreCase("ja");
+    }
+
     private void deleteMember() {
         int memberId = promptForInt("Indtast medlemsnummer: ");
         memberController.deleteMember(memberId);
-        System.out.println("Medlem slettet.");
+        System.out.println("Medlem med nummer: " + memberId + ", er slettet.");
+        if (!promptForReturnToMenu()) {
+            deleteMember();
+        }
     }
 
     private void showMembers() {
@@ -137,13 +164,16 @@ public class ChairmanUI {
                 System.out.println(member);
             }
         }
+        if (!promptForReturnToMenu()) {
+            showMembers();
+        }
     }
 
     private void exitManagement() {
         try {
             memberController.saveAllMembers();
             System.out.println("Data gemt. Afslutter programmet.");
-            System.exit(0); // Sikrer en korrekt afslutning af programmet
+            System.exit(0);
         } catch (Exception e) {
             System.err.println("Fejl ved gemning af data: " + e.getMessage());
             e.printStackTrace();

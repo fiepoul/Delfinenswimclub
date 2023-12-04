@@ -4,11 +4,13 @@ public class MainUI {
     private Scanner scanner;
     private LogInService logInService;
     private MemberController memberController;
+    private FinancielController financielController;
 
-    public MainUI(MemberController memberController) {
+    public MainUI(MemberController memberController, FinancielController financielController) {
         this.scanner = new Scanner(System.in);
         this.logInService = new LogInService();
         this.memberController = memberController;
+        this.financielController = financielController;
     }
 
     public void start() {
@@ -17,6 +19,12 @@ public class MainUI {
         while (true) {
             System.out.println("Indtast brugernavn: ");
             String username = scanner.nextLine();
+
+            if (!logInService.isUsernameValid(username)) {
+                System.out.println("Fejl i brugernavn. Tjek store og små bogstaver. Prøv igen: ");
+                continue; // tilbage til starten af løkken
+            }
+
             System.out.println("Indtast kodeord: ");
             String password = scanner.nextLine();
 
@@ -26,7 +34,7 @@ public class MainUI {
                 showMainMenu(loggedInUser);
                 break;
             } else {
-                System.out.println("Fejl i brugernavn eller kodeord. Prøv igen: ");
+                System.out.println("Fejl i kodeord. Prøv igen: ");
             }
         }
     }
@@ -36,7 +44,7 @@ public class MainUI {
             ChairmanUI chairmanUI = new ChairmanUI(memberController);
             chairmanUI.start();
         } else if (user.getRole() == Role.KASSERER) {
-            TreasurerUI treasurerUI = new TreasurerUI(memberController);
+            TreasurerUI treasurerUI = new TreasurerUI(financielController);
             treasurerUI.start();
         } else {
             System.out.println("Ugyldig brugerrolle.");

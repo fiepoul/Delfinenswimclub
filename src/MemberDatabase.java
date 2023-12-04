@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Queue;
 
 public class MemberDatabase {
-    private static final String MEMBERS_FILE = "members.ser";
+    private static final String MEMBERS_FILE = "members.csv";
     private static final String NEXT_ID_FILE = "nextId.ser";
     private static final String CURRENT_YEAR_FILE = "currentYear.ser";
 
@@ -29,19 +29,26 @@ public class MemberDatabase {
     }
 
     public void saveMembers() {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(MEMBERS_FILE))) {
-            out.writeObject(members);
+        try (PrintWriter out = new PrintWriter(new FileOutputStream(MEMBERS_FILE))) {
+            for (Member member : members) {
+                out.println(member.toCsvString());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public List<Member> loadMembers() {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(MEMBERS_FILE))) {
-            return (List<Member>) in.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            return new ArrayList<>();
+        List<Member> loadedMembers = new ArrayList<>();
+        try (BufferedReader in = new BufferedReader(new FileReader(MEMBERS_FILE))) {
+            String line;
+            while ((line = in.readLine()) != null) {
+                loadedMembers.add(Member.fromCsvString(line));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return loadedMembers;
     }
 
     public void saveNextId() {
