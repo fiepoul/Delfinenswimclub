@@ -39,7 +39,7 @@ public class FinancielController {
         }
     }
 
-    public void displayMembersList() {
+    public void displayMembersList() { //todo: kontingent pr. år både budget og forventet. Årstal inkulderet. todo: lav unittest
         System.out.println("Medlemsliste med betalingsstatus:");
         List<Member> members = memberController.getMembers();
         if (members.isEmpty()) {
