@@ -106,25 +106,46 @@ public class TrainerUi {
             return;
         }
 
-        System.out.println("Indtast dato for resultat (format dd.MM.yyyy):");
-        String dateString = scanner.nextLine();
-        LocalDate date;
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            date = LocalDate.parse(dateString, formatter);
-        } catch (DateTimeParseException e) {
-            System.out.println("Ugyldigt datoformat.");
-            return;
+        System.out.println("Vil du indtaste et trænings eller konkurrenceresultat [t/k]: ");
+        String trainingResultType = scanner.nextLine().trim();
+        if (trainingResultType.equalsIgnoreCase("t")) {
+            System.out.println("Indtast dato for resultat (format dd.MM.yyyy):");
+            String dateString = scanner.nextLine();
+            LocalDate date;
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+                date = LocalDate.parse(dateString, formatter);
+            } catch (DateTimeParseException e) {
+                System.out.println("Ugyldigt datoformat.");
+                return;
+            }
+            System.out.println("Indtast tid (format mm:ss.SS):"); //todo lav fejlhåndtering
+            String time = scanner.nextLine();
+            Result result = new Result(discipline, date, time);
+            swimTeamController.recordSwimmerResult(memberId, result);
+        } else if (trainingResultType.equalsIgnoreCase("k")) {
+            System.out.println("Indtast dato for resultat (format dd.MM.yyyy):");
+            String dateString = scanner.nextLine();
+            LocalDate date;
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+                date = LocalDate.parse(dateString, formatter);
+            } catch (DateTimeParseException e) {
+                System.out.println("Ugyldigt datoformat.");
+                return;
+            }
+            System.out.println("Indtast tid (format mm:ss.SS):"); //todo lav fejlhåndtering
+            String time = scanner.nextLine();
+
+            System.out.println("Indtast stævne: ");
+            String competitionName = scanner.nextLine();
+
+            System.out.println("Indtast placering: ");
+            int rank = scanner.nextInt();
+
+            ResultCompetition resultCompetition = new ResultCompetition(discipline, date, time, competitionName, rank);
+            swimTeamController.recordSwimmerResult(memberId, resultCompetition);
         }
-
-        System.out.println("Indtast tid (format mm:ss.SS):"); //todo lav fejlhåndtering
-        String time = scanner.nextLine();
-
-        // TODO indtastning af konkurrencenavn og placering om det er en konkurrenceresult
-
-        Result result = new Result(discipline, date, time);
-        swimTeamController.recordSwimmerResult(memberId, result);
-
         System.out.println("Resultat registreret for svømmer med medlemsnummer " + memberId);
     }
 
