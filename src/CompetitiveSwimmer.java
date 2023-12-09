@@ -69,7 +69,7 @@ public class CompetitiveSwimmer extends Member {
         } else if (bestCompetitionResult == null) {
             return bestTrainingResult;
         } else {
-            if (bestTrainingResult instanceof ResultCompetition && bestCompetitionResult instanceof ResultCompetition) {
+            if (bestTrainingResult instanceof ResultCompetition) {
                 return isBetterCompetitionResult((ResultCompetition)bestTrainingResult, bestCompetitionResult)
                         ? bestTrainingResult
                         : bestCompetitionResult;

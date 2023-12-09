@@ -61,14 +61,14 @@ public class TrainerUi {
             if (topJuniors.isEmpty()) {
                 System.out.println("ingen svømmere i denne gruppe");
             } else {
-                topJuniors.forEach(swimmer -> System.out.println(swimmer.getName() + " - " + swimmer.getBestResult(discipline).getTime()));
+                topJuniors.forEach(swimmer -> System.out.println(swimmer.getName() + " - " + swimmer.getBestResult(discipline).getTimeWithDate()));
             }
             System.out.println("Top fem senior svømmere i " + discipline + ":");
             List<CompetitiveSwimmer> topSeniors = swimTeamController.getTopSeniorSwimmers(discipline);
             if (topSeniors.isEmpty()) {
                 System.out.println("ingen svømmere i denne gruppe");
             } else {
-                topSeniors.forEach(swimmer -> System.out.println(swimmer.getName() + " - " + swimmer.getBestResult(discipline).getTime()));
+                topSeniors.forEach(swimmer -> System.out.println(swimmer.getName() + " - " + swimmer.getBestResult(discipline).getTimeWithDate()));
             }
         } catch (IllegalArgumentException e) {
             System.out.println("Ugyldig disciplin valgt.");

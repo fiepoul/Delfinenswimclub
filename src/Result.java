@@ -20,6 +20,10 @@ public class Result {
         this.date = date;
     }
 
+    public String getTimeWithDate() {
+        return time + ", " + date;
+    }
+
     public String getTime() {
         return time;
     }
@@ -35,7 +39,7 @@ public class Result {
     }
 
     public double getTimeInSeconds() {
-        String[] parts = time.split("[:,]");
+        String[] parts = time.split("[:.]");
         int minutes = Integer.parseInt(parts[0]);
         int seconds = Integer.parseInt(parts[1]);
         int milliseconds = Integer.parseInt(parts[2]);
