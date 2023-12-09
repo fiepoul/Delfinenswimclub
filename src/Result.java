@@ -6,21 +6,33 @@ public class Result {
 
     private Discipline discipline;
 
-    public Result(LocalDate date, String time, Discipline discipline) {
+    public Result(Discipline discipline, LocalDate date, String time) {
+        this.discipline = discipline;
         this.date = date;
         this.time = time;
-        this.discipline = discipline;
     }
 
     public LocalDate getDate() {
         return date;
     }
 
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
     public String getTime() {
         return time;
     }
 
+    public void setTime() {
+        this.time = time;
+    }
+
     public Discipline getDiscipline() {return discipline; }
+
+    public void setDiscipline(Discipline discipline) {
+        this.discipline = discipline;
+    }
 
     public double getTimeInSeconds() {
         String[] parts = time.split("[:.]");
@@ -41,7 +53,16 @@ public class Result {
         LocalDate date = LocalDate.parse(parts[1]);
         String time = parts[2];
 
-        return new Result(date, time, discipline);
+        System.out.println("Discipline: " + parts[0]);
+        System.out.println("Date: " + parts[1]);
+        System.out.println("Time: " + parts[2]);
+
+        Result result = new Result(discipline, date, time);
+        result.setDiscipline(discipline);
+        result.setDate(date);
+        result.setTime();
+
+        return result;
     }
 
 

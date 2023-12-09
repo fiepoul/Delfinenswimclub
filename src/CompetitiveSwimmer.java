@@ -30,7 +30,7 @@ public class CompetitiveSwimmer extends Member {
     }
 
     private boolean isBetterResult(Result existingResult, Result newResult) {
-        // Antager at lavere tid er bedre
+        // lavere tid er bedre
         return newResult.getTimeInSeconds() < existingResult.getTimeInSeconds();
     }
 
@@ -40,7 +40,7 @@ public class CompetitiveSwimmer extends Member {
             return true;
         }
 
-        // Hvis tiderne er ens, så brug datoen som tie-breaker. Nyere dato er bedre.
+        // Hvis tiderne er ens, så er datoen tie-breaker. Nyere dato er bedre.
         if (newResult.getTimeInSeconds() == existingResult.getTimeInSeconds()) {
             return newResult.getDate().isAfter(existingResult.getDate());
         }
@@ -74,10 +74,6 @@ public class CompetitiveSwimmer extends Member {
 
     public ResultCompetition getBestCompetitionResult(Discipline discipline) {
         return competitionResults.get(discipline);
-    }
-
-    public boolean isJunior() {
-        return getAge() < 18;
     }
 
     public static CompetitiveSwimmer fromCsvString(String csvString) {

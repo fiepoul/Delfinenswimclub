@@ -3,8 +3,8 @@ import java.time.LocalDate;
 public class ResultCompetition extends Result {
     private String competitionName;
     private int rank;
-    public ResultCompetition(LocalDate date, String time, Discipline discipline, String competitionName, int rank) {
-        super(date, time, discipline);
+    public ResultCompetition(Discipline discipline, LocalDate date, String time, String competitionName, int rank) {
+        super(discipline, date, time);
         this.competitionName = competitionName;
         this.rank = rank;
     }
@@ -32,7 +32,7 @@ public class ResultCompetition extends Result {
         String competitionName = parts[3];
         int rank = Integer.parseInt(parts[4]);
 
-        return new ResultCompetition(date, time, discipline, competitionName, rank);
+        return new ResultCompetition(discipline, date, time, competitionName, rank);
     }
 
     public String getCompetitionName() {

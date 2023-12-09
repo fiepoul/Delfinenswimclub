@@ -30,7 +30,7 @@ public class TrainerUi {
                 case 1 -> displayTopSwimmers();
                 case 2 -> registerSwimmerResults();
                 case 3 -> displaySwimmerResults();
-                case 4 -> displayListOfSwimmers();
+                case 4 -> displayListAllSwimmers();
                 case 5 -> System.exit(0);
                 default -> System.out.println("Forkert forsøg. Prøv igen: ");
             }
@@ -58,17 +58,24 @@ public class TrainerUi {
 
             System.out.println("Top fem junior svømmere i " + discipline + ":");
             List<CompetitiveSwimmer> topJuniors = swimTeamController.getTopJuniorSwimmers(discipline);
-            topJuniors.forEach(swimmer -> System.out.println(swimmer.getName() + " - " + swimmer.getBestResult(discipline).getTime()));
-
+            if (topJuniors.isEmpty()) {
+                System.out.println("ingen resultater");
+            } else {
+                topJuniors.forEach(swimmer -> System.out.println(swimmer.getName() + " - " + swimmer.getBestResult(discipline).getTime()));
+            }
             System.out.println("Top fem senior svømmere i " + discipline + ":");
             List<CompetitiveSwimmer> topSeniors = swimTeamController.getTopSeniorSwimmers(discipline);
-            topSeniors.forEach(swimmer -> System.out.println(swimmer.getName() + " - " + swimmer.getBestResult(discipline).getTime()));
+            if (topSeniors.isEmpty()) {
+                System.out.println("ingen resultater");
+            } else {
+                topSeniors.forEach(swimmer -> System.out.println(swimmer.getName() + " - " + swimmer.getBestResult(discipline).getTime()));
+            }
         } catch (IllegalArgumentException e) {
             System.out.println("Ugyldig disciplin valgt.");
         }
     }
 
-    private void displayListOfSwimmers() {
+    private void displayListAllSwimmers() {
         System.out.println("Liste over svømmere:");
         List<CompetitiveSwimmer> swimmers = swimTeamController.getAllSwimmers();
         swimmers.forEach(swimmer ->
@@ -115,7 +122,7 @@ public class TrainerUi {
 
         // TODO indtastning af konkurrencenavn og placering om det er en konkurrenceresult
 
-        Result result = new Result(date, time, discipline);
+        Result result = new Result(discipline, date, time);
         swimTeamController.recordSwimmerResult(memberId, result);
 
         System.out.println("Resultat registreret for svømmer med medlemsnummer " + memberId);
