@@ -14,12 +14,21 @@ public class CompetitiveSwimmer extends Member {
         this.competitionResults = new HashMap<>();
     }
 
+    public Map<Discipline, Result> getTrainingResults() {
+        return trainingResults;
+    }
+
+    public Map<Discipline, ResultCompetition> getCompetitionResults() {
+        return competitionResults;
+    }
 
     public void addTrainingResult(Result result) {
         Discipline discipline = result.getDiscipline(); // Få disciplinen fra result objektet
         if (!trainingResults.containsKey(discipline) || isBetterResult(trainingResults.get(discipline), result)) {
             trainingResults.put(discipline, result);
         }
+
+        System.out.println("Tilføjer træningsresultat: " + result); //debugven
     }
 
     public void addCompetitionResult(ResultCompetition result) {

@@ -42,6 +42,14 @@ public class Result {
         return minutes * 60 + seconds + milliseconds / 100.0;
     }
 
+    @Override
+    public String toString() {
+        return "Result{" + "discipline=" + discipline +
+                ", date=" + date +
+                ", time='" + time + '\'' +
+                '}';
+    }
+
     public String toCsvString() {
         return discipline.name() + "," + date + "," + time;
     }
