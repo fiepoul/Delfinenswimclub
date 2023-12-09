@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.List;
 
 public class FinancielController {
@@ -9,13 +10,28 @@ public class FinancielController {
         this.financialDatabase = financialDatabase;
     }
 
-    public int calculateTotalMembershipFees() {
+    public int calculateExpectedYearlyFeeIncome() {
         int totalFees = 0;
         List<Member> members = memberController.getMembers();
         for (Member member : members) {
             totalFees += member.calculateMembershipFee();
         }
         return totalFees;
+    }
+
+    public int calculateYearlyIncome() {
+        int yearlyIncome = 0;
+        List<Member> members = memberController.getMembers();
+        LocalDate currentdate = LocalDate.now();
+
+        for (Member member : members) {
+            boolean isPaymentComplete = member.isPaymentComplete();
+
+            if (isPaymentComplete) {
+                yearlyIncome += member.calculateMembershipFee();
+            }
+        }
+        return yearlyIncome;
     }
 
     public void displayMembersInArrears() {

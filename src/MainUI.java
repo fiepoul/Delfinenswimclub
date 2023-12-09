@@ -5,12 +5,14 @@ public class MainUI {
     private final LogInService logInService;
     private final MemberController memberController;
     private final FinancielController financielController;
+    private final SwimTeamController swimTeamController;
 
-    public MainUI(MemberController memberController, FinancielController financielController) {
+    public MainUI(MemberController memberController, FinancielController financielController, SwimTeamController swimTeamController) {
         this.scanner = new Scanner(System.in);
         this.logInService = new LogInService();
         this.memberController = memberController;
         this.financielController = financielController;
+        this.swimTeamController = swimTeamController;
     }
 
     public void start() {
@@ -46,6 +48,9 @@ public class MainUI {
         } else if (user.getRole() == Role.KASSERER) {
             TreasurerUI treasurerUI = new TreasurerUI(financielController);
             treasurerUI.start();
+        } else if (user.getRole() == Role.TRÆNER) {
+            TrainerUi trainerUi = new TrainerUi(swimTeamController);
+            trainerUi.start();
         } else {
             System.out.println("Ugyldig brugerrolle.");
         }

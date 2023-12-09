@@ -76,7 +76,7 @@ public class TreasurerUI {
 
     private void showTotalMembershipFees() {
         while (true) {
-            int totalFees = financielController.calculateTotalMembershipFees();
+            int totalFees = financielController.calculateYearlyIncome();
             System.out.println("Samlet kontingentindbetaling: " + totalFees);
 
             if (promptForReturnToMenu()) {

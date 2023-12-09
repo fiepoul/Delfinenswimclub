@@ -65,16 +65,22 @@ public class ChairmanUI {
         String city = scanner.nextLine();
         Address address = new Address(streetName, houseNumber, zipCode, city);
 
-        System.out.println("Indtast telefonnummer: "); //todo: mere fejlkode ?promp?
+        System.out.println("Indtast telefonnummer: ");
         String phoneNumber = scanner.nextLine();
         System.out.println("Indtast email:");
         String email = scanner.nextLine();
         System.out.println("Er medlemmet aktivt? (ja/nej):");
         boolean isActive = scanner.nextLine().trim().equalsIgnoreCase("ja");
         System.out.println("Er medlemmet en konkurrencesvømmer? (ja/nej):");
-        boolean isCompetitive = scanner.nextLine().trim().equalsIgnoreCase("ja");
+        String input = scanner.nextLine().trim();
+        Member newMember;
 
-        Member newMember = new Member(name, birthDate, address, phoneNumber, email, isActive, isCompetitive);
+        if (input.equalsIgnoreCase("ja")) {
+            newMember = new CompetitiveSwimmer(name, birthDate, address, phoneNumber, email, isActive);
+            memberController.addMember(newMember);
+        } else {
+            newMember = new Member(name, birthDate, address, phoneNumber, email, isActive);
+        }
         memberController.addMember(newMember);
 
         System.out.println("Nyt medlem tilføjet: " + newMember);

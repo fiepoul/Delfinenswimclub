@@ -1,5 +1,6 @@
 public enum Role {
         FORMAND,
-        KASSERER
+        KASSERER,
+        TRÆNER
 
 }

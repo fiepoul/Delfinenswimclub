@@ -31,7 +31,9 @@ public class MemberDatabase {
     public void saveMembers() {
         try (PrintWriter out = new PrintWriter(new FileOutputStream(MEMBERS_FILE))) {
             for (Member member : members) {
-                out.println(member.toCsvString());
+                if (member != null) {
+                    out.println(member.toCsvString());
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

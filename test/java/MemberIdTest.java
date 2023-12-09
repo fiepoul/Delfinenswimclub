@@ -8,7 +8,7 @@ class MemberIdTest {
 
     @Test
     void testGenerateMemberNumber() {
-            MemberController controller = new MemberController(new MemberDatabase());
+            MemberController controller = new MemberController(new MemberDatabase(), new SwimTeamController(new SwimTeamDatabase("testmock.csv")));
             int currentYear = LocalDate.now().getYear();
 
             // Genererer det første medlemsnummer i det aktuelle år

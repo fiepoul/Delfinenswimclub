@@ -8,8 +8,8 @@ public class MemberFee extends Member {
     private static final int PASSIVE_FEE_ALL_AGES = 500;
     private boolean isPensionist;
 
-    public MemberFee(String name, LocalDate birthDate, Address address, String phoneNumber, String mail, boolean isActive, boolean isCompetitive) {
-        super(name, birthDate, address, phoneNumber, mail, isActive, isCompetitive);
+    public MemberFee(String name, LocalDate birthDate, Address address, String phoneNumber, String mail, boolean isActive) {
+        super(name, birthDate, address, phoneNumber, mail, isActive);
         this.isPensionist = getAge() >= 60;
     }
 

@@ -3,15 +3,21 @@ import java.util.List;
 
 public class MemberController {
     private MemberDatabase memberDatabase;
+    private SwimTeamController swimTeamController;
 
-    public MemberController(MemberDatabase memberDatabase) {
+    public MemberController(MemberDatabase memberDatabase, SwimTeamController swimTeamController) {
         this.memberDatabase = memberDatabase;
+        this.swimTeamController = swimTeamController;
     }
 
     public void addMember(Member member) {
         int memberId = memberDatabase.hasAvailableMemberId() ? memberDatabase.getAvailableMemberId() : generateMemberNumber();
         member.setMemberId(memberId);
         memberDatabase.saveMember(member);
+
+        if (member instanceof CompetitiveSwimmer) {
+            swimTeamController.addSwimmer((CompetitiveSwimmer) member);
+        }
     }
 
     public int generateMemberNumber() {

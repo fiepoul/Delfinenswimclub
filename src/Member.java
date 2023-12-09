@@ -17,14 +17,13 @@ public class Member implements Serializable {
     private boolean paymentComplete;
 
 
-    public Member(String name, LocalDate birthDate, Address address, String phoneNumber, String mail, boolean isActive, boolean isCompetitive) {
+    public Member(String name, LocalDate birthDate, Address address, String phoneNumber, String mail, boolean isActive) {
         this.name = name;
         this.birthDate = birthDate;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.mail = mail;
         this.isActive = isActive;
-        this.isCompetitive = isCompetitive;
         this.registrationDate = LocalDate.now(); // sættes til dato for indmeldelse
     }
 
@@ -99,6 +98,10 @@ public class Member implements Serializable {
         this.registrationDate = registrationDate;
     }
 
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
     public boolean isPaymentComplete() {
         return paymentComplete;
     }
@@ -108,7 +111,7 @@ public class Member implements Serializable {
     }
 
     public int calculateMembershipFee() {
-        MemberFee feeCalculator = new MemberFee(name, birthDate, address, phoneNumber, mail, isActive, isCompetitive);
+        MemberFee feeCalculator = new MemberFee(name, birthDate, address, phoneNumber, mail, isActive);
         return feeCalculator.calculateMembershipFee();
     }
 
@@ -116,7 +119,6 @@ public class Member implements Serializable {
     public String toString() {
         String category = isJunior() ? "Junior" : "Senior";
         String activeOrPassive = isActive() ? "Aktiv" : "Passiv";
-        String competitiveOrHobby = isCompetitive() ? "Konkurrencesvømmer" : "Motionist";
         return "Medlem{" +
                 "medlemsnummer: " + memberId +
                 ", navn: '" + name + '\'' +
@@ -127,7 +129,6 @@ public class Member implements Serializable {
                 ", e-mail: '" + mail + '\'' +
                 ", status: " + activeOrPassive +
                 ", kategori: " + category +
-                ", type: " + competitiveOrHobby +
                 ", registreringsdato: " + registrationDate +
                 '}';
     }
@@ -135,17 +136,18 @@ public class Member implements Serializable {
     public String toCsvString() {
         String category = isJunior() ? "Junior" : "Senior";
         String activeOrPassive = isActive() ? "Aktiv" : "Passiv";
-        String competitiveOrHobby = isCompetitive() ? "Konkurrencesvømmer" : "Motionist";
         return memberId + "," + name + "," + birthDate + "," +
                 address.getStreetName() + "," + address.getHouseNumber() + "," +
                 address.getZipCode() + "," + address.getCity() + "," +
                 phoneNumber + "," + mail + "," + category + "," + activeOrPassive + "," +
-                competitiveOrHobby + "," + registrationDate + "," + paymentComplete;
-    } //todo: skriv lidt flottere boolean
+                registrationDate + "," + paymentComplete;
+    }
 
     public static Member fromCsvString(String csvString) {
+        if (csvString == null || csvString.trim().isEmpty()) {
+            return null;
+        }
         String[] parts = csvString.split(",");
-
         int memberId = Integer.parseInt(parts[0]);
         String name = parts[1];
         LocalDate birthDate = LocalDate.parse(parts[2]);
@@ -154,11 +156,10 @@ public class Member implements Serializable {
         String mail = parts[8];
         boolean isJunior = Boolean.parseBoolean(parts[9]);
         boolean isActive = Boolean.parseBoolean(parts[10]);
-        boolean isCompetitive = Boolean.parseBoolean(parts[11]);
-        LocalDate registrationDate = LocalDate.parse(parts[12]);
-        boolean paymentComplete = Boolean.parseBoolean(parts[13]);
+        LocalDate registrationDate = LocalDate.parse(parts[11]);
+        boolean paymentComplete = Boolean.parseBoolean(parts[12]);
 
-        Member member = new Member(name, birthDate, address, phoneNumber, mail, isActive, isCompetitive);
+        Member member = new Member(name, birthDate, address, phoneNumber, mail, isActive);
         member.setMemberId(memberId);
         member.setRegistrationDate(registrationDate);
         member.setPaymentComplete(paymentComplete);
