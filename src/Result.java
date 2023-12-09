@@ -36,9 +36,6 @@ public class Result {
 
     public static Result fromCsvString(String csvString) {
         String[] parts = csvString.split(",");
-        if (parts.length != 3) {
-            throw new IllegalArgumentException("Ugyldig format for Result CSV-streng: " + csvString);
-        }
 
         Discipline discipline = Discipline.valueOf(parts[0]);
         LocalDate date = LocalDate.parse(parts[1]);

@@ -73,18 +73,32 @@ public class SwimTeamDatabase {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 try {
-                    int memberId = Integer.parseInt(parts[0]);
+                    int swimmerId = Integer.parseInt(parts[0]);
                     Result result = Result.fromCsvString(String.join(",", Arrays.copyOfRange(parts, 1, parts.length)));
 
-                    CompetitiveSwimmer swimmer = findSwimmerById(memberId);
+                    CompetitiveSwimmer swimmer = findSwimmerById(swimmerId);
                     if (swimmer != null) {
-                        swimmer.addTrainingResult(result);
+                        recordSwimmerResult(swimmerId, result);
                     }
                 } catch (IllegalArgumentException e) {
+                    System.out.println("noget gik galt ved loading");
                 }
             }
         } catch (IOException e) {
             System.err.println("Fejl ved læsning af resultater fra fil: " + e.getMessage());
+        }
+    }
+
+    public void recordSwimmerResult(int swimmerId, Result result) {
+        CompetitiveSwimmer swimmer = findSwimmerById(swimmerId);
+        if (swimmer != null) {
+            if (result instanceof ResultCompetition) {
+                swimmer.addCompetitionResult((ResultCompetition) result);
+                saveBestResults();
+            } else {
+                swimmer.addTrainingResult(result);
+                saveBestResults();
+            }
         }
     }
 
