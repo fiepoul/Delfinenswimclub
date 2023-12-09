@@ -113,8 +113,7 @@ public class TrainerUi {
         System.out.println("Indtast tid (format mm:ss.SS):");
         String time = scanner.nextLine();
 
-        // Hvis det er et konkurrenceresultat, tilføj yderligere logik her
-        // f.eks. indtastning af konkurrencenavn og placering
+        // TODO indtastning af konkurrencenavn og placering om det er en konkurrenceresult
 
         Result result = new Result(date, time, discipline);
         swimTeamController.recordSwimmerResult(memberId, result);
