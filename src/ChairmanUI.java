@@ -77,7 +77,6 @@ public class ChairmanUI {
 
         if (input.equalsIgnoreCase("ja")) {
             newMember = new CompetitiveSwimmer(name, birthDate, address, phoneNumber, email, isActive);
-            memberController.addMember(newMember);
         } else {
             newMember = new Member(name, birthDate, address, phoneNumber, email, isActive);
         }

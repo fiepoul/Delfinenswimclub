@@ -58,11 +58,11 @@ public class TrainerUi {
 
             System.out.println("Top fem junior svømmere i " + discipline + ":");
             List<CompetitiveSwimmer> topJuniors = swimTeamController.getTopJuniorSwimmers(discipline);
-            topJuniors.forEach(swimmer -> System.out.println(swimmer.getName() + " - " + swimmer.getBestCompetitionResult(discipline).getTime()));
+            topJuniors.forEach(swimmer -> System.out.println(swimmer.getName() + " - " + swimmer.getBestResult(discipline).getTime()));
 
             System.out.println("Top fem senior svømmere i " + discipline + ":");
             List<CompetitiveSwimmer> topSeniors = swimTeamController.getTopSeniorSwimmers(discipline);
-            topSeniors.forEach(swimmer -> System.out.println(swimmer.getName() + " - " + swimmer.getBestCompetitionResult(discipline).getTime()));
+            topSeniors.forEach(swimmer -> System.out.println(swimmer.getName() + " - " + swimmer.getBestResult(discipline).getTime()));
         } catch (IllegalArgumentException e) {
             System.out.println("Ugyldig disciplin valgt.");
         }

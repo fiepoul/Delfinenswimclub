@@ -88,30 +88,6 @@ public class SwimTeamDatabase {
         }
     }
 
-    private boolean isNumeric(String strNum) {
-        if (strNum == null) {
-            return false;
-        }
-        try {
-            Integer.parseInt(strNum);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
-    public void recordSwimmerResult(int swimmerId, Result result) {
-        CompetitiveSwimmer swimmer = findSwimmerById(swimmerId);
-        if (swimmer != null) {
-            if (result instanceof ResultCompetition) {
-                swimmer.addCompetitionResult((ResultCompetition) result);
-            } else {
-                swimmer.addTrainingResult(result);
-            }
-            saveBestResults(); // Gemmer ændringerne
-        }
-    }
-
     public CompetitiveSwimmer findSwimmerById(int swimmerId) {
         return swimmers.stream()
                 .filter(swimmer -> swimmer.getMemberId() == swimmerId)
