@@ -59,14 +59,14 @@ public class TrainerUi {
             System.out.println("Top fem junior svømmere i " + discipline + ":");
             List<CompetitiveSwimmer> topJuniors = swimTeamController.getTopJuniorSwimmers(discipline);
             if (topJuniors.isEmpty()) {
-                System.out.println("ingen resultater");
+                System.out.println("ingen svømmere i denne gruppe");
             } else {
                 topJuniors.forEach(swimmer -> System.out.println(swimmer.getName() + " - " + swimmer.getBestResult(discipline).getTime()));
             }
             System.out.println("Top fem senior svømmere i " + discipline + ":");
             List<CompetitiveSwimmer> topSeniors = swimTeamController.getTopSeniorSwimmers(discipline);
             if (topSeniors.isEmpty()) {
-                System.out.println("ingen resultater");
+                System.out.println("ingen svømmere i denne gruppe");
             } else {
                 topSeniors.forEach(swimmer -> System.out.println(swimmer.getName() + " - " + swimmer.getBestResult(discipline).getTime()));
             }
@@ -117,7 +117,7 @@ public class TrainerUi {
             return;
         }
 
-        System.out.println("Indtast tid (format mm:ss.SS):");
+        System.out.println("Indtast tid (format mm:ss.SS):"); //todo lav fejlhåndtering
         String time = scanner.nextLine();
 
         // TODO indtastning af konkurrencenavn og placering om det er en konkurrenceresult

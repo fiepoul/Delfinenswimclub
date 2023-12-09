@@ -52,8 +52,8 @@ public class SwimTeamController {
 
     public List<CompetitiveSwimmer> getTopSwimmersByAgeGroup(List<CompetitiveSwimmer> ageGroupSwimmers, Discipline discipline) {
         return ageGroupSwimmers.stream()
-                .filter(swimmer -> swimmer.getBestCompetitionResult(discipline) != null)
-                .sorted(Comparator.comparingDouble(swimmer -> swimmer.getBestCompetitionResult(discipline).getTimeInSeconds()))
+                .filter(swimmer -> swimmer.getBestResult(discipline) != null)
+                .sorted(Comparator.comparingDouble(swimmer -> swimmer.getBestResult(discipline).getTimeInSeconds()))
                 .limit(5)
                 .collect(Collectors.toList());
     }

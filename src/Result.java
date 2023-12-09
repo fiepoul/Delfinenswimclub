@@ -35,7 +35,7 @@ public class Result {
     }
 
     public double getTimeInSeconds() {
-        String[] parts = time.split("[:.]");
+        String[] parts = time.split("[:,]");
         int minutes = Integer.parseInt(parts[0]);
         int seconds = Integer.parseInt(parts[1]);
         int milliseconds = Integer.parseInt(parts[2]);
@@ -61,16 +61,7 @@ public class Result {
         LocalDate date = LocalDate.parse(parts[1]);
         String time = parts[2];
 
-        System.out.println("Discipline: " + parts[0]);
-        System.out.println("Date: " + parts[1]);
-        System.out.println("Time: " + parts[2]);
-
-        Result result = new Result(discipline, date, time);
-        result.setDiscipline(discipline);
-        result.setDate(date);
-        result.setTime();
-
-        return result;
+        return new Result(discipline, date, time);
     }
 
 
