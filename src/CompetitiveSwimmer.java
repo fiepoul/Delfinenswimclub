@@ -33,29 +33,34 @@ public class CompetitiveSwimmer extends Member {
 
     public void addCompetitionResult(ResultCompetition result) {
         Discipline discipline = result.getDiscipline(); // Få disciplinen fra ResultCompetition objektet
-        if (!competitionResults.containsKey(discipline) || isBetterCompetitionResult(competitionResults.get(discipline), result)) {
+        if (!competitionResults.containsKey(discipline) || isBetterResult(competitionResults.get(discipline), result)) {
             competitionResults.put(discipline, result);
         }
     }
 
     private boolean isBetterResult(Result existingResult, Result newResult) {
-        // lavere tid er bedre
-        return newResult.getTimeInSeconds() < existingResult.getTimeInSeconds();
-    }
-
-    private boolean isBetterCompetitionResult(ResultCompetition existingResult, ResultCompetition newResult) {
-        // Sammenlign først tiderne. Lavere tid er bedre.
-        if (newResult.getTimeInSeconds() < existingResult.getTimeInSeconds()) {
-            return true;
-        }
-
         // Hvis tiderne er ens, så er datoen tie-breaker. Nyere dato er bedre.
         if (newResult.getTimeInSeconds() == existingResult.getTimeInSeconds()) {
             return newResult.getDate().isAfter(existingResult.getDate());
         }
 
+        // lavere tid er bedre
+        return newResult.getTimeInSeconds() < existingResult.getTimeInSeconds();
+    }
+
+    private Result getBestResultCheck(Result existingResult, Result newResult) {
+        // Sammenlign først tiderne. Lavere tid er bedre.
+        if (newResult.getTimeInSeconds() < existingResult.getTimeInSeconds()) {
+            return existingResult;
+        }
+
+        // Hvis tiderne er ens, så er datoen tie-breaker. Nyere dato er bedre.
+        if (newResult.getTimeInSeconds() == existingResult.getTimeInSeconds()) {
+            return newResult.getDate().isAfter(existingResult.getDate()) ? newResult : existingResult;
+        }
+
         // Hvis den nye tid er højere, er det ikke et bedre resultat.
-        return false;
+        return existingResult;
     }
 
     public Result getBestResult(Discipline discipline) {
@@ -69,15 +74,7 @@ public class CompetitiveSwimmer extends Member {
         } else if (bestCompetitionResult == null) {
             return bestTrainingResult;
         } else {
-            if (bestTrainingResult instanceof ResultCompetition) {
-                return isBetterCompetitionResult((ResultCompetition)bestTrainingResult, bestCompetitionResult)
-                        ? bestTrainingResult
-                        : bestCompetitionResult;
-            } else {
-                return isBetterResult(bestTrainingResult, bestCompetitionResult)
-                        ? bestTrainingResult
-                        : bestCompetitionResult;
-            }
+            return getBestResultCheck(bestCompetitionResult, bestTrainingResult);
         }
     }
 
