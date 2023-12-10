@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -24,15 +25,21 @@ public class TrainerUi {
             System.out.println("2: Registrer svømmeresultater");
             System.out.println("3: Vis svømmeresultater");
             System.out.println("4: Vis liste over konkurrencesvømmere");
-            System.out.println("5: Afslut");
-            int choice = promptForInt("Vælg en af mulighederne (1-5): ");
+            System.out.println("5: Tilføj træner");
+            System.out.println("6: Opdater trænerløn");
+            System.out.println("7: Vis trænere for et hold");
+            System.out.println("8: Afslut");
+            int choice = promptForInt("Vælg en af mulighederne (1-8): ");
 
             switch (choice) {
                 case 1 -> displayTopSwimmers();
                 case 2 -> registerSwimmerResults();
                 case 3 -> displaySwimmerResults();
                 case 4 -> displayListAllSwimmers();
-                case 5 -> System.exit(0);
+                case 5 -> addTrainer();
+                case 6 -> updateTrainerPay();
+                case 7 -> displayTrainersByTeam();
+                case 8 -> System.exit(0);
                 default -> System.out.println("Forkert forsøg. Prøv igen: ");
             }
         }
@@ -183,6 +190,45 @@ public class TrainerUi {
         }
     }
 
+    private void addTrainer() {
+        scanner.nextLine();
+        System.out.println("Indtast trænerens navn:");
+        String name = scanner.nextLine();
+        scanner.nextLine();
 
+        System.out.println("Indtast trænerens løn:");
+        String pay = scanner.nextLine();
+
+        System.out.println("Træner tilføjet.");
+        Trainer newTrainer = new Trainer(name, pay);
+        System.out.println("Tildel til hold (Junior/Senior):");
+        String team = scanner.nextLine();
+        newTrainer.setTeam(team);
+        swimTeamController.addTrainer(newTrainer);
+        swimTeamController.assignTrainerToTeam(name, team);
+        System.out.println("Træner tildelt til " + team + " holdet.");
+    }
+
+    private void updateTrainerPay() {
+        scanner.nextLine();
+        System.out.println("Indtast trænerens navn:");
+        String name = scanner.nextLine();
+        System.out.println("Indtast ny løn:");
+        double newPay = scanner.nextDouble();
+        scanner.nextLine();
+        swimTeamController.updateTrainerPay(name, newPay);
+        System.out.println("Trænerens løn opdateret.");
+    }
+
+    private void displayTrainersByTeam() {
+        System.out.println("Vælg hold (Junior/Senior):");
+        String team = scanner.nextLine();
+        List<Trainer> trainers = swimTeamController.getTrainersByTeam(team);
+        if (trainers.isEmpty()) {
+            System.out.println("Ingen trænere fundet for " + team + " holdet.");
+        } else {
+            trainers.forEach(trainer -> System.out.println("Navn: " + trainer.getName() + ", Løn: " + trainer.getPay()));
+        }
+    }
 
 }

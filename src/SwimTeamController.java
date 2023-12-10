@@ -81,4 +81,35 @@ public class SwimTeamController {
         return getTopSwimmersByAgeGroup(seniors, discipline);
     }
 
+    public void addTrainer(Trainer trainer) {
+        swimTeamDatabase.addTrainer(trainer);
+        swimTeamDatabase.saveTrainers();
+    }
+
+    private Optional<Trainer> findTrainerByName(String trainerName) {
+        return swimTeamDatabase.getAllTrainers().stream()
+                .filter(trainer -> trainer.getName().equalsIgnoreCase(trainerName))
+                .findFirst();
+    }
+
+    public void assignTrainerToTeam(String trainerName, String team) {
+        findTrainerByName(trainerName)
+                .ifPresent(trainer -> trainer.setTeam(team));
+    }
+
+    public void updateTrainerPay(String trainerName, double newPay) {
+        findTrainerByName(trainerName)
+                .ifPresent(trainer -> trainer.setPay(newPay));
+    }
+
+    public Trainer getTrainerByName(String trainerName) {
+        return findTrainerByName(trainerName).orElse(null);
+    }
+
+    public List<Trainer> getTrainersByTeam(String team) {
+        return swimTeamDatabase.getAllTrainers().stream()
+                .filter(trainer -> trainer.getTeam().equalsIgnoreCase(team))
+                .collect(Collectors.toList());
+    }
+
 }

@@ -7,14 +7,52 @@ import java.util.List;
 public class SwimTeamDatabase {
     private String SWIM_TEAM_FILE = "swimTeam.csv";
     private String SWIM_RESULT_FILE = "swimResult.csv";
+
+    private String TRAINER_FILE = "trainers.csv";
     private List<CompetitiveSwimmer> swimmers;
+    private List<Trainer> trainers;
 
     public SwimTeamDatabase(String file) {
         SWIM_TEAM_FILE = "swimTeam.csv";
         SWIM_RESULT_FILE = "swimResult.csv";
+        TRAINER_FILE = "trainers.csv";
         this.swimmers = new ArrayList<>();
+        this.trainers = new ArrayList<>();
         loadSwimmers();
         loadBestResults();
+        loadTrainers();
+    }
+
+    private void loadTrainers() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(TRAINER_FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Trainer trainer = Trainer.fromCsvString(line);
+                trainers.add(trainer);
+            }
+        } catch (IOException e) {
+            System.err.println("Fejl ved indlæsning af trænerdata fra filen: " + e.getMessage());
+        }
+    }
+
+    public void saveTrainers() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(TRAINER_FILE))) {
+            for (Trainer trainer : trainers) {
+                writer.write(trainer.toCsvString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Fejl ved skrivning af trænerdata til fil: " + e.getMessage());
+        }
+    }
+
+    public void addTrainer(Trainer trainer) {
+        trainers.add(trainer);
+        saveTrainers();
+    }
+
+    public List<Trainer> getAllTrainers() {
+        return new ArrayList<>(trainers);
     }
 
     public List<CompetitiveSwimmer> loadSwimmers() {
