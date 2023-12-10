@@ -1,6 +1,5 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,16 +22,14 @@ public class CompetitiveSwimmer extends Member {
     }
 
     public void addTrainingResult(Result result) {
-        Discipline discipline = result.getDiscipline(); // Få disciplinen fra result objektet
+        Discipline discipline = result.getDiscipline(); // Får disciplinen fra result objektet
         if (!trainingResults.containsKey(discipline) || isBetterResult(trainingResults.get(discipline), result)) {
             trainingResults.put(discipline, result);
         }
-
-        System.out.println("Tilføjer træningsresultat: " + result); //debugven
     }
 
     public void addCompetitionResult(ResultCompetition result) {
-        Discipline discipline = result.getDiscipline(); // Få disciplinen fra ResultCompetition objektet
+        Discipline discipline = result.getDiscipline(); // Får disciplinen fra ResultCompetition objektet
         if (!competitionResults.containsKey(discipline) || isBetterResult(competitionResults.get(discipline), result)) {
             competitionResults.put(discipline, result);
         }
@@ -87,7 +84,7 @@ public class CompetitiveSwimmer extends Member {
             return null;
         }
         String[] parts = csvString.split(",");
-        if (parts.length < 13) {//maaske
+        if (parts.length < 13) {
             return null;
         }
         try {
@@ -101,7 +98,7 @@ public class CompetitiveSwimmer extends Member {
         Address address = new Address(parts[3], parts[4], parts[5], parts[6]);
         String phoneNumber = parts[7];
         String mail = parts[8];
-        boolean isJunior = Boolean.parseBoolean(parts[9]);
+        boolean isJunior = Boolean.parseBoolean(parts[9]); //todo slet?
         boolean isActive = Boolean.parseBoolean(parts[10]);
         LocalDate registrationDate = LocalDate.parse(parts[11]);
         boolean paymentComplete = Boolean.parseBoolean(parts[12]);
