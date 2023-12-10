@@ -28,12 +28,16 @@ public class Trainer {
     public static Trainer fromCsvString(String csvString) {
         String[] parts = csvString.split(",");
         String name = parts[0];
-        String pay = parts[1];
-        return new Trainer(name, pay);
+        String team = parts[1];
+        String pay = parts[2];
+
+        Trainer trainer = new Trainer(name, pay);
+        trainer.setTeam(team);
+        return trainer;
     }
 
     public String toCsvString() {
-        return name + "," + pay;
+        return name + "," + team + "," + pay;
     }
 
     public String getPay() {

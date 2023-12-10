@@ -24,12 +24,11 @@ public class TrainerUi {
             System.out.println("1. Se top fem svømmere i hver disciplin");
             System.out.println("2: Registrer svømmeresultater");
             System.out.println("3: Vis svømmeresultater");
-            System.out.println("4: Vis liste over konkurrencesvømmere");
+            System.out.println("4: Vis hold");
             System.out.println("5: Tilføj træner");
             System.out.println("6: Opdater trænerløn");
-            System.out.println("7: Vis trænere for et hold");
-            System.out.println("8: Afslut");
-            int choice = promptForInt("Vælg en af mulighederne (1-8): ");
+            System.out.println("7: Afslut");
+            int choice = promptForInt("Vælg en af mulighederne (1-7): ");
 
             switch (choice) {
                 case 1 -> displayTopSwimmers();
@@ -38,8 +37,7 @@ public class TrainerUi {
                 case 4 -> displayListAllSwimmers();
                 case 5 -> addTrainer();
                 case 6 -> updateTrainerPay();
-                case 7 -> displayTrainersByTeam();
-                case 8 -> System.exit(0);
+                case 7 -> System.exit(0);
                 default -> System.out.println("Forkert forsøg. Prøv igen: ");
             }
         }
@@ -84,14 +82,8 @@ public class TrainerUi {
     }
 
     private void displayListAllSwimmers() {
-        List<CompetitiveSwimmer> swimmers = swimTeamController.getAllSwimmers();
-        Map<String, List<CompetitiveSwimmer>> swimTeams = swimTeamController.getSwimTeamsJuniorOrSenior(swimmers);
-
-        System.out.println("\nJunior holdet:");
-        swimTeams.get("Junior").forEach(swimmer -> System.out.println("Medlemsnummer: " + swimmer.getMemberId() + ", Navn: " + swimmer.getName()));
-
-        System.out.println("\nSenior holdet:");
-        swimTeams.get("Senior").forEach(swimmer -> System.out.println("Medlemsnummer: " + swimmer.getMemberId() + ", Navn: " + swimmer.getName()));
+        swimTeamController.displayTeamInfo("Junior");
+        swimTeamController.displayTeamInfo("Senior");
     }
 
     private void registerSwimmerResults() {
@@ -218,17 +210,6 @@ public class TrainerUi {
         scanner.nextLine();
         swimTeamController.updateTrainerPay(name, newPay);
         System.out.println("Trænerens løn opdateret.");
-    }
-
-    private void displayTrainersByTeam() {
-        System.out.println("Vælg hold (Junior/Senior):");
-        String team = scanner.nextLine();
-        List<Trainer> trainers = swimTeamController.getTrainersByTeam(team);
-        if (trainers.isEmpty()) {
-            System.out.println("Ingen trænere fundet for " + team + " holdet.");
-        } else {
-            trainers.forEach(trainer -> System.out.println("Navn: " + trainer.getName() + ", Løn: " + trainer.getPay()));
-        }
     }
 
 }

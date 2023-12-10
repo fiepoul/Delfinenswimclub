@@ -71,6 +71,15 @@ public class SwimTeamController {
         return swimTeams;
     }
 
+    public void displayTeamInfo(String teamName) {
+        List<CompetitiveSwimmer> teamSwimmers = teamName.equals("Junior") ? getJuniorSwimmers() : getSeniorSwimmers();
+        Trainer teamTrainer = getTrainersByTeam(teamName).stream().findFirst().orElse(null);
+
+        System.out.println("\n" + teamName + " holdet:");
+        teamSwimmers.forEach(swimmer -> System.out.println("Medlemsnummer: " + swimmer.getMemberId() + ", Navn: " + swimmer.getName()));
+        System.out.println("Træner for " + teamName.toLowerCase() + " holdet: " + (teamTrainer != null ? teamTrainer.getName() : "Ingen træner tildelt"));
+    }
+
     public List<CompetitiveSwimmer> getTopJuniorSwimmers(Discipline discipline) {
         List<CompetitiveSwimmer> juniors = getJuniorSwimmers();
         return getTopSwimmersByAgeGroup(juniors, discipline);
