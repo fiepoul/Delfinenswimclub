@@ -5,6 +5,10 @@ import java.time.Period;
 public class Member implements Serializable {
     private static final long serialVersionUID = 100L;
 
+    private static final int ACTIVE_FEE_UNDER_18 = 1000;
+    private static final int ACTIVE_FEE_OVER_18 = 1600;
+    private static final int ACTIVE_FEE_OVER_60 = 1200;
+    private static final int PASSIVE_FEE_ALL_AGES = 500;
     private int memberId;
     private String name;
     private LocalDate birthDate;
@@ -111,8 +115,18 @@ public class Member implements Serializable {
     }
 
     public int calculateMembershipFee() {
-        MemberFee feeCalculator = new MemberFee(name, birthDate, address, phoneNumber, mail, isActive);
-        return feeCalculator.calculateMembershipFee();
+        if (!isActive) {
+            return PASSIVE_FEE_ALL_AGES;
+        } else {
+            int age = getAge();
+            if (age < 18) {
+                return ACTIVE_FEE_UNDER_18;
+            } else if (age >= 60) {
+                return ACTIVE_FEE_OVER_60;
+            } else {
+                return ACTIVE_FEE_OVER_18;
+            }
+        }
     }
 
     @Override
@@ -154,8 +168,8 @@ public class Member implements Serializable {
         Address address = new Address(parts[3], parts[4], parts[5], parts[6]);
         String phoneNumber = parts[7];
         String mail = parts[8];
-        boolean isJunior = Boolean.parseBoolean(parts[9]);
-        boolean isActive = Boolean.parseBoolean(parts[10]);
+        boolean isJunior = parts[9].equalsIgnoreCase("Junior");
+        boolean isActive = parts[10].equalsIgnoreCase("Aktiv");
         LocalDate registrationDate = LocalDate.parse(parts[11]);
         boolean paymentComplete = Boolean.parseBoolean(parts[12]);
 
