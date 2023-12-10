@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class TrainerUi {
@@ -76,11 +77,14 @@ public class TrainerUi {
     }
 
     private void displayListAllSwimmers() {
-        System.out.println("Liste over svømmere:");
         List<CompetitiveSwimmer> swimmers = swimTeamController.getAllSwimmers();
-        swimmers.forEach(swimmer ->
-                System.out.println("Medlemsnummer: " + swimmer.getMemberId() + ", Navn: " + swimmer.getName())
-        );
+        Map<String, List<CompetitiveSwimmer>> swimTeams = swimTeamController.getSwimTeamsJuniorOrSenior(swimmers);
+
+        System.out.println("\nJunior holdet:");
+        swimTeams.get("Junior").forEach(swimmer -> System.out.println("Medlemsnummer: " + swimmer.getMemberId() + ", Navn: " + swimmer.getName()));
+
+        System.out.println("\nSenior holdet:");
+        swimTeams.get("Senior").forEach(swimmer -> System.out.println("Medlemsnummer: " + swimmer.getMemberId() + ", Navn: " + swimmer.getName()));
     }
 
     private void registerSwimmerResults() {

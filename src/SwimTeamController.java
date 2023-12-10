@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SwimTeamController {
@@ -56,6 +54,21 @@ public class SwimTeamController {
                 .sorted(Comparator.comparingDouble(swimmer -> swimmer.getBestResult(discipline).getTimeInSeconds()))
                 .limit(5)
                 .collect(Collectors.toList());
+    }
+
+    public Map<String, List<CompetitiveSwimmer>> getSwimTeamsJuniorOrSenior(List<CompetitiveSwimmer> swimmers) {
+        Map<String, List<CompetitiveSwimmer>> swimTeams = new HashMap<>();
+        List<CompetitiveSwimmer> juniors = swimmers.stream()
+                .filter(swimmer -> swimmer.getAge() < 18)
+                .collect(Collectors.toList());
+        List<CompetitiveSwimmer> seniors = swimmers.stream()
+                .filter(swimmer -> swimmer.getAge() >= 18)
+                .collect(Collectors.toList());
+
+        swimTeams.put("Junior", juniors);
+        swimTeams.put("Senior", seniors);
+
+        return swimTeams;
     }
 
     public List<CompetitiveSwimmer> getTopJuniorSwimmers(Discipline discipline) {
